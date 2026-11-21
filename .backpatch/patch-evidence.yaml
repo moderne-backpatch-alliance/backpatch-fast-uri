@@ -1,6 +1,6 @@
 schema: osera-patch-evidence/0.1.0
 producer: moderne
-release: 3.0.7-backpatch-00004
+release: 3.0.7-backpatch-00005
 baseline: v3.0.6+backpatch.baseline
 fixes:
   - cve: CVE-2026-6321
@@ -50,12 +50,20 @@ fixes:
     basis: adapted
     artifacts:
       - fast-uri
-    note: "New in this release; upstream's fix in 2.4.5, adapted to 3.0.6. It closes the advisory: fast-uri vulnerable to server-side request forgery via malformed IPv6 normalization."
+    note: "Carried from 3.0.7-backpatch-00004; upstream's fix in 2.4.5, adapted to 3.0.6. It closes the advisory: fast-uri vulnerable to server-side request forgery via malformed IPv6 normalization."
+  - cve: CVE-2026-76172
+    upstream_fix_url: https://github.com/fastify/fast-uri/commit/a941e626411f576f8d90883231e57b6c9d0ff98b
+    advisory_url: https://nvd.nist.gov/vuln/detail/CVE-2026-76172
+    patch_commit_url: https://github.com/moderne-backpatch-alliance/backpatch-fast-uri/commit/fa87307
+    basis: adapted
+    artifacts:
+      - fast-uri
+    note: "New in this release; upstream's fix in 2.4.5, adapted to 3.0.6. It closes the advisory: fast-uri vulnerable to host confusion via percent-encoded scheme normalization."
 tests:
-  commit: 5f6821f105d1de384104f29102d8baaa5db6ef68
+  commit: fa8730724bd6299259b9aef3e418b1a5262cba58
   command: npm pack --ignore-scripts, then each of the tested commit's test/*.js under tape (one process per file) and tsd against the packed package, each assertion recorded into the JUnit report
   runtime: Node.js v22.16.0 (--no-network-family-autoselection), macOS 27.2 arm64
-  report: fast-uri-3.0.7-backpatch-00004-tests.zip
-  report_sha256: 41352482959532cd8fbf54cd65299ba1d0a83bea9e6cb0c1900885b2a75ffb86
+  report: fast-uri-3.0.7-backpatch-00005-tests.zip
+  report_sha256: 21c6442248a0358b63d1b8a9850de76ec2daa9ebb106d96c7a4672c3c0b8baa0
   result: pass
-  note: "upstream's tape tests (every test/*.js, one process per file) and tsd on the packed package at the tested commit: 788 tests, 788 passed, 0 failed, 0 skipped. The CVE tests (test/compatibility.test.js), with this release's production lines reverted at the tested commit: 50 tests, 48 passed, 2 failed, 0 skipped; with them: 50 tests, 50 passed, 0 failed, 0 skipped. Built with no build step, npm pack --ignore-scripts in a directory named fast-uri, 22 of npmjs's 26 files for 3.0.6 are identical; the rest are index.js, lib/utils.js, package.json, test/compatibility.test.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build. The package keeps npmjs's file list: test/security-normalization.test.js, test/security.test.js, which this line's fixes add, are left out of it; they are at the tested commit and their results are in the report."
+  note: "upstream's tape tests (every test/*.js, one process per file) and tsd on the packed package at the tested commit: 844 tests, 844 passed, 0 failed, 0 skipped. The CVE tests (test/scheme-validation.test.js), with this release's production lines reverted at the tested commit: 56 tests, 20 passed, 36 failed, 0 skipped; with them: 56 tests, 56 passed, 0 failed, 0 skipped. Built with no build step, npm pack --ignore-scripts in a directory named fast-uri, 22 of npmjs's 26 files for 3.0.6 are identical; the rest are index.js, lib/utils.js, package.json, test/compatibility.test.js. The archive's file-origins.yaml maps each packaged file to the commit, or names its inputs and build. The package keeps npmjs's file list: test/scheme-validation.test.js, test/security-normalization.test.js, test/security.test.js, which this line's fixes add, are left out of it; they are at the tested commit and their results are in the report."
